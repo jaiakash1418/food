@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Wastage Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f2f2f2;
+        }
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #218838;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #1e7e34;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+        h2 {
+            color: #28a745;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .dashboard {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: #e9f7ef;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 250px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #218838;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Food Wastage Management</h1>
+    <p>Donate leftover food and reduce wastage!</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#donor">Donor Dashboard</a>
+    <a href="#recipient">Recipient Dashboard</a>
+</nav>
+
+<div class="container" id="home">
+    <h2>Welcome</h2>
+    <p>This website helps restaurants, households, and stores donate leftover food to those in need. Join us in reducing food wastage!</p>
+</div>
+
+<div class="container" id="donor">
+    <h2>Donor Dashboard</h2>
+    <form id="donationForm">
+        <label for="foodName">Food Name:</label>
+        <input type="text" id="foodName" required>
+
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" required>
+
+        <label for="expiry">Expiry Date:</label>
+        <input type="date" id="expiry" required>
+
+        <label for="location">Pickup Location:</label>
+        <input type="text" id="location" required>
+
+        <button type="submit">Donate Food</button>
+    </form>
+
+    <h3>Your Donations</h3>
+    <div id="donationList" class="dashboard"></div>
+</div>
+
+<div class="container" id="recipient">
+    <h2>Recipient Dashboard</h2>
+    <p>Available donations will appear here:</p>
+    <div id="availableFood" class="dashboard"></div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Food Wastage Management. All rights reserved.</p>
+</footer>
+
+<script>
+    const donationForm = document.getElementById('donationForm');
+    const donationList = document.getElementById('donationList');
+    const availableFood = document.getElementById('availableFood');
+
+    let donations = [];
+
+    donationForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        const foodName = document.getElementById('foodName').value;
+        const quantity = document.getElementById('quantity').value;
+        const expiry = document.getElementById('expiry').value;
+        const location = document.getElementById('location').value;
+
+        const donation = { foodName, quantity, expiry, location };
+        donations.push(donation);
+
+        renderDonations();
+        donationForm.reset();
+    });
+
+    function renderDonations() {
+        donationList.innerHTML = '';
+        availableFood.innerHTML = '';
+        donations.forEach((donation, index) => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `<strong>${donation.foodName}</strong><br>
+                             Quantity: ${donation.quantity}<br>
+                             Expiry: ${donation.expiry}<br>
+                             Location: ${donation.location}`;
+            donationList.appendChild(div);
+
+            const div2 = div.cloneNode(true);
+            availableFood.appendChild(div2);
+        });
+    }
+</script>
+
+</body>
+</html>
